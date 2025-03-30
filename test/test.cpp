@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include <Eigen/Dense>
+#include <extern/eigen/Eigen/Dense>
+#include <vector>
 
 using namespace std;
 using namespace Eigen;
@@ -18,7 +19,7 @@ char numToChar(int n) {
 }
 
 // Matrix multiplication with modulo operation
-atrixXi multiplyandMod(const MatrixXi& A, const MatrixXi& B) {
+MatrixXi multiplyandMod(const MatrixXi& A, const MatrixXi& B) {
     int MOD = 27;
 
     MatrixXi resultTemp = (A * B);
@@ -30,6 +31,7 @@ atrixXi multiplyandMod(const MatrixXi& A, const MatrixXi& B) {
 MatrixXi textToMatrix(const string& text) {
     vector<int> nums;
     for (int i = 0; i < text.length(); ++i) {
+        char c = text[i];
         if (c == ' ' || (c >= 'A' && c <= 'Z')) {
             nums.push_back(charToNum(c));
         }
@@ -64,14 +66,14 @@ string matrixToText(const MatrixXi& matrix) {
 // Encode function
 string encode(const string& plaintext, const MatrixXi& A) {
     MatrixXi P = textToMatrix(plaintext);
-    MatrixXi C = matrixMultiply(A, P);
+    MatrixXi C = multiplyandMod(A, P);
     return matrixToText(C);
 }
 
 // Decode function
 string decode(const string& ciphertext, const MatrixXi& B) {
     MatrixXi C = textToMatrix(ciphertext);
-    MatrixXi P = matrixMultiply(B, C);
+    MatrixXi P = multiplyandMod(B, C);
     return matrixToText(P);
 }
 
