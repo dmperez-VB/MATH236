@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <extern/eigen/Eigen/Dense>
+#include "extern/eigen/Eigen/Dense"
 #include <vector>
 
 using namespace std;
@@ -24,7 +24,7 @@ MatrixXi multiplyandMod(const MatrixXi& A, const MatrixXi& B) {
 
     MatrixXi resultTemp = (A * B);
     MatrixXi result = resultTemp.unaryExpr([MOD](int x) { return x % MOD; });  // Use MOD here
-    return result;  // Missing semicolon
+    return result;
 }
 
 // Convert text to matrix form
@@ -97,7 +97,7 @@ int main() {
     string encrypted = encode(message, A);
     string decrypted = decode(encrypted, B);
 
-    cout << "\nOriginal:   " << message << endl;
+    cout << "Original:   " << message << endl;
     cout << "Encrypted:  " << encrypted << endl;
     cout << "Decrypted:  " << decrypted << endl;
 
