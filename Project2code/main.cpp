@@ -2,6 +2,7 @@
 #include <string>
 #include "extern/eigen/Eigen/Dense"
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 using namespace Eigen;
@@ -90,16 +91,43 @@ int main() {
          2, 2, 3, 22,
          23, 3, 3, 2;
 
-    string message;
-    cout << "Enter Message In CAPS: ";
+    string message, encrypted, decrypted, question;
+
+    cout << "Enter Message your message: ";
     getline(cin, message);
+    transform(message.begin(), message.end(), message.begin(), 
+              [](unsigned char c){ return std::toupper(c); });
 
-    string encrypted = encode(message, A);
-    string decrypted = decode(encrypted, B);
+    cout << "Would you like to Encode decode or Both: ";
+    getline(cin, question);
+    transform(question.begin(), question.end(), question.begin(), 
+              [](unsigned char c){ return std::toupper(c); });
 
-    cout << "Original:   " << message << endl;
-    cout << "Encrypted:  " << encrypted << endl;
-    cout << "Decrypted:  " << decrypted << endl;
+    while(true){
+        if(question == "ENCODE"){
+            encrypted = encode(message, A);
+            cout << "Original:   " << message << endl;
+            cout << "Encrypted:  " << encrypted << endl;
+            break;
+        }else if(question == "DECODE"){
+            decrypted = decode(message, B);
+            cout << "Original:   " << message << endl;
+            cout << "Decrypted:  " << decrypted << endl;
+            break;
+        }else if(question == "BOTH"){
+            encrypted = encode(message, A);
+            decrypted = decode(encrypted, B);
+            cout << "Original:   " << message << endl;
+            cout << "Encrypted:  " << encrypted << endl;
+            cout << "Decrypted:  " << decrypted << endl;
+            break;
+        }else{
+            cout << "Incorrect input please enter Encode, Decode or Both: ";
+            getline(cin, question);
+            transform(question.begin(), question.end(), question.begin(), 
+              [](unsigned char c){ return std::toupper(c); });
+        }
+    }
 
     return 0;
 }
